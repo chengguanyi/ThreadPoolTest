@@ -18,7 +18,12 @@ public class InternalTask implements Runnable {
     public void run() {
         //如果当前任务为running并且没有被中断，则将其不断地从queue中获取runnable
         while (running && !Thread.currentThread().isInterrupted()){
-            Runnable task = runnableQueue.take();
+            Runnable task = null;
+            try {
+                task = runnableQueue.take();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
             task.run();
         }
     }
