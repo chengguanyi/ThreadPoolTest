@@ -159,7 +159,41 @@ public class BasicThreadPool extends Thread implements ThreadPool {
         return this.initSize;
     }
 
+    @Override
+    public int getMaxSize() {
+        if (isShutdown){
+            throw new IllegalStateException("The thread pool is destory");
+        }
+        return this.maxSize;
+    }
 
+    @Override
+    public int getCoreSize() {
+        if (isShutdown){
+            throw new IllegalStateException("The thread pool is destory");
+        }
+        return this.coreSize;
+    }
+
+    @Override
+    public int getQueueSize() {
+        if (isShutdown){
+            throw new IllegalStateException("The thread pool is destory");
+        }
+        return runnableQueue.size();
+    }
+
+    @Override
+    public int getActiveCount() {
+        synchronized (this){
+            return this.activeCount;
+        }
+    }
+
+    @Override
+    public boolean isShutdown() {
+        return this.isShutdown;
+    }
 
     private static class DefaultThreadFactory implements TheadFactory {
 
