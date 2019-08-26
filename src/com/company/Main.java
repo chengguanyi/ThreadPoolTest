@@ -1,29 +1,43 @@
 package com.company;
 
-import java.io.*;
+
 
 public class Main {
 
+
+    class newclass{
+
+    }
+
+
+    public static int[] twoSum(int[] nums, int target) {
+        int[] targets = new int[2];
+
+        for(int i = 0;i < nums.length-1; i++){
+            System.out.println("+++++++++++++");
+            for(int j = i+1;j < nums.length;j++){
+                System.out.println("=============="+ j);
+                if(nums[i] + nums[j] == target){
+//                    System.out.println(i+","+j);
+//                    System.out.println(nums[i]+","+nums[j]);
+                    targets[0] = i;
+                    targets[1] = j;
+                }
+            }
+        }
+
+        return targets;
+
+    }
+
     public static void main(String[] args) {
 
-        //文件路径
-        String fileName = "D:/Users/服务配置.txt";
+        int[]  arr={3,3};
 
-        File file =new File(fileName);
-        BufferedReader reader = null;
-        try {
-            System.out.println("以行为单位读取文件内容，一次读一整行：");
-            reader = new BufferedReader(new FileReader(fileName));
-            String tempString = null;
-            int line = 1;
-            //一次读入一行知道读入null
-            while ((tempString = reader.readLine()) != null){
-                System.out.println("line " + line + ": " + tempString);
-                line++;
-            }
-            reader.close();
-        } catch (IOException e ) {
-            e.printStackTrace();
+        int[] n = twoSum(arr,6);
+
+        for (int i = 0;i < n.length; i++){
+        System.out.println(n[i]);
         }
 
     }
