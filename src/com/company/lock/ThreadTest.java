@@ -2,6 +2,8 @@ package com.company.lock;
 
 
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * @author chengguanyi
@@ -9,19 +11,24 @@ import java.util.concurrent.TimeUnit;
  */
 public class ThreadTest implements Runnable {
 
-    private static int count = 1000;
+    Lock lock = new ReentrantLock();
+    private static int count = 100;
+    private volatile int index = 0;
 
     @Override
     public void run() {
-        while (count != 0) {
-            synchronized (this) {
-                try {
-                    System.out.println(Thread.currentThread().getName() + "消费掉一个单位：" + count);
-                    count--;
-                    TimeUnit.MILLISECONDS.sleep(1000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+        while (index < count) {
+            lock.lock();
+            try {
+                System.out.println(Thread.currentThread().getName()+"得到了锁，正在读取文件……");
+                System.out.println(Thread.currentThread().getName() + "第：" + index+"个");
+                index++;
+                TimeUnit.MILLISECONDS.sleep(100);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }finally {
+                System.out.println(Thread.currentThread().getName()+"释放了锁！");
+                lock.unlock();
             }
         }
     }
@@ -31,5 +38,7 @@ public class ThreadTest implements Runnable {
         ThreadTest threadTest = new ThreadTest();
         new Thread(threadTest, "thread1").start();
         new Thread(threadTest, "thread2").start();
+        new Thread(threadTest, "thread3").start();
+        new Thread(threadTest, "thread4").start();
     }
 }
