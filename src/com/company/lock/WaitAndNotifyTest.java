@@ -20,7 +20,7 @@ public class WaitAndNotifyTest {
             synchronized (hamburger) {
                 while (hamburger.get() >= max) {
                     try {
-                        System.out.println(Thread.currentThread() + "存量已满，等待销售");
+                        System.out.println(Thread.currentThread().getName() + "存量已满，等待销售");
                         TimeUnit.MILLISECONDS.sleep(100);
                         hamburger.wait();
                     } catch (InterruptedException e) {
@@ -29,7 +29,7 @@ public class WaitAndNotifyTest {
                 }
 
                 hamburger.getAndIncrement();
-                System.out.println(Thread.currentThread() + "正在生产" + "已生产" + hamburger.get() + "个");
+                System.out.println(Thread.currentThread().getName() + "正在生产" + "已生产" + hamburger.get() + "个");
                 hamburger.notifyAll();
 
                 try {
@@ -55,7 +55,7 @@ public class WaitAndNotifyTest {
                 }
 
                 hamburger.getAndDecrement();
-                System.out.println(Thread.currentThread() + "汉堡卖出" + 1 + "个");
+                System.out.println(Thread.currentThread().getName() + "汉堡卖出" + 1 + "个");
                 hamburger.notifyAll();
 
                 try {
